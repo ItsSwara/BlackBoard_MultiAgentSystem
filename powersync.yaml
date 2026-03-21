@@ -1,0 +1,15 @@
+bucket_definitions:
+  user_buckets:
+    # Sync all data for any connected user
+    parameters: []
+    data:
+      - table: sessions
+        columns: ["id", "goal", "status", "created_at", "updated_at", "completed_at"]
+      - table: agents
+        columns: ["id", "session_id", "name", "type", "status", "current_task_id", "last_seen", "created_at"]
+      - table: tasks
+        columns: ["id", "session_id", "posted_by", "assigned_to", "title", "description", "status", "priority", "created_at", "updated_at", "completed_at"]
+      - table: artifacts
+        columns: ["id", "session_id", "task_id", "agent_id", "agent_name", "type", "title", "content", "confidence", "parent_artifact_id", "status", "requires_human_review", "human_note", "tags", "created_at", "updated_at"]
+      - table: blackboard_events
+        columns: ["id", "session_id", "agent_id", "agent_name", "event_type", "entity_type", "entity_id", "payload", "created_at"]
