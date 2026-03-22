@@ -1,0 +1,159 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-base: #080c14;
+  --bg-surface: #0d1420;
+  --bg-elevated: #111827;
+  --bg-glass: rgba(13, 20, 32, 0.8);
+  --bg-border: rgba(255,255,255,0.06);
+  --border-cyan: rgba(0, 212, 255, 0.2);
+  --border-amber: rgba(245, 166, 35, 0.2);
+  --border-emerald: rgba(0, 232, 122, 0.2);
+  --text-primary: #e8edf5;
+  --text-secondary: #8892a4;
+  --text-dim: #4a5568;
+  --cyan: #00d4ff;
+  --amber: #f5a623;
+  --emerald: #00e87a;
+  --red: #ff4466;
+  --purple: #a78bfa;
+  --cyan-glow: 0 0 20px rgba(0,212,255,0.3);
+  --amber-glow: 0 0 20px rgba(245,166,35,0.3);
+  --emerald-glow: 0 0 20px rgba(0,232,122,0.3);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg-base);
+  color: var(--text-primary);
+  font-family: 'Outfit', sans-serif;
+  font-size: 14px;
+  min-height: 100vh;
+}
+
+.font-mono { font-family: 'JetBrains Mono', monospace; }
+
+/* Animated dot grid background */
+.dot-grid {
+  background-image: radial-gradient(circle, rgba(0,212,255,0.08) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+/* Glassmorphism card */
+.glass-card {
+  background: rgba(13, 20, 32, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px;
+}
+
+.glass-card-cyan {
+  background: rgba(0, 212, 255, 0.03);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(0,212,255,0.15);
+  border-radius: 12px;
+}
+
+/* Pulsing dot animation */
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.8); }
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(0.8); opacity: 0.8; }
+  100% { transform: scale(2); opacity: 0; }
+}
+
+@keyframes slide-in-right {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes heartbeat {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+@keyframes progress-bar {
+  0% { width: 0%; }
+  100% { width: 100%; }
+}
+
+@keyframes scan-line {
+  0% { top: 0%; }
+  100% { top: 100%; }
+}
+
+@keyframes progress-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.pulse-dot {
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+.pulse-ring {
+  position: relative;
+}
+
+.pulse-ring::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 1px solid var(--cyan);
+  animation: pulse-ring 1.5s ease-out infinite;
+}
+
+/* Agent colors */
+.agent-orchestrator { color: var(--cyan); }
+.agent-researcher { color: #60a5fa; }
+.agent-analyst { color: var(--purple); }
+.agent-writer { color: var(--emerald); }
+.agent-human { color: var(--amber); }
+
+/* Type badges */
+.badge-finding { background: rgba(96,165,250,0.15); color: #60a5fa; border: 1px solid rgba(96,165,250,0.3); }
+.badge-analysis { background: rgba(167,139,250,0.15); color: var(--purple); border: 1px solid rgba(167,139,250,0.3); }
+.badge-draft { background: rgba(245,166,35,0.15); color: var(--amber); border: 1px solid rgba(245,166,35,0.3); }
+.badge-final { background: rgba(0,232,122,0.15); color: var(--emerald); border: 1px solid rgba(0,232,122,0.3); }
+.badge-annotation { background: rgba(255,68,102,0.15); color: var(--red); border: 1px solid rgba(255,68,102,0.3); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
+
+/* Input styles */
+input, textarea, select {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  color: var(--text-primary);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 13px;
+  outline: none;
+  transition: border-color 0.2s;
+  width: 100%;
+}
+input:focus, textarea:focus, select:focus {
+  border-color: rgba(0,212,255,0.4);
+  box-shadow: 0 0 0 3px rgba(0,212,255,0.08);
+}
+
+/* Progress bar at top */
+.top-progress {
+  height: 2px;
+  background: linear-gradient(90deg, var(--cyan), var(--purple), var(--emerald));
+  animation: progress-shimmer 2s linear infinite;
+  background-size: 200% 100%;
+}

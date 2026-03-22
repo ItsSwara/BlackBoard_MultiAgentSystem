@@ -1,0 +1,6 @@
+.env.local
+.env
+node_modules/
+.next/
+private.pem
+*.pem

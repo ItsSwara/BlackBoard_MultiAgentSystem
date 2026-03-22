@@ -1,0 +1,25 @@
+sync_rules:
+  - name: sessions
+    table: sessions
+    data:
+      - SELECT id, goal, status, created_at, updated_at, completed_at FROM sessions
+
+  - name: agents
+    table: agents
+    data:
+      - SELECT id, session_id, name, type, status, current_task_id, last_seen, created_at FROM agents
+
+  - name: tasks
+    table: tasks
+    data:
+      - SELECT id, session_id, posted_by, assigned_to, title, description, status, priority, created_at, updated_at, completed_at FROM tasks
+
+  - name: artifacts
+    table: artifacts
+    data:
+      - SELECT id, session_id, task_id, agent_id, agent_name, type, title, content, confidence, parent_artifact_id, status, requires_human_review, human_note, tags, created_at, updated_at FROM artifacts
+
+  - name: blackboard_events
+    table: blackboard_events
+    data:
+      - SELECT id, session_id, agent_id, agent_name, event_type, entity_type, entity_id, payload, created_at FROM blackboard_events
