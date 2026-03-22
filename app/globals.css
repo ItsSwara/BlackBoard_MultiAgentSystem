@@ -1,13 +1,9 @@
-<<<<<<< HEAD
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap');
-=======
->>>>>>> c82d7ec0c3afbc798ab926f91a33a5f81a5b6290
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-<<<<<<< HEAD
   --bg-base: #080c14;
   --bg-surface: #0d1420;
   --bg-elevated: #111827;
@@ -30,37 +26,10 @@
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
-=======
-  --bg-base: #0a0b0d;
-  --bg-surface: #0f1013;
-  --bg-elevated: #14161a;
-  --bg-border: #1e2128;
-  --text-primary: #e8eaf0;
-  --text-secondary: #9ca3af;
-  --text-dim: #4b5563;
-  --accent-primary: #00d4aa;
-  --accent-dim: #00927a;
-  --agent-orchestrator: #818cf8;
-  --agent-researcher: #34d399;
-  --agent-analyst: #60a5fa;
-  --agent-writer: #f472b6;
-  --agent-human: #fbbf24;
-  --status-working: #f59e0b;
-  --status-idle: #6b7280;
-  --status-done: #10b981;
-}
-
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-}
->>>>>>> c82d7ec0c3afbc798ab926f91a33a5f81a5b6290
 
 body {
   background: var(--bg-base);
   color: var(--text-primary);
-<<<<<<< HEAD
   font-family: 'Outfit', sans-serif;
   font-size: 14px;
   min-height: 100vh;
@@ -187,111 +156,4 @@ input:focus, textarea:focus, select:focus {
   background: linear-gradient(90deg, var(--cyan), var(--purple), var(--emerald));
   animation: progress-shimmer 2s linear infinite;
   background-size: 200% 100%;
-=======
-  font-family: var(--font-geist-sans, ui-sans-serif, system-ui, sans-serif);
-}
-
-/* Grid background */
-.grid-bg {
-  background-image:
-    linear-gradient(rgba(0, 212, 170, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 212, 170, 0.03) 1px, transparent 1px);
-  background-size: 40px 40px;
-}
-
-/* Scanlines overlay */
-.scanlines::after {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 2px,
-    rgba(0, 0, 0, 0.05) 2px,
-    rgba(0, 0, 0, 0.05) 4px
-  );
-  pointer-events: none;
-  z-index: 9999;
-}
-
-/* Card */
-.card {
-  background: var(--bg-surface);
-  border: 1px solid var(--bg-border);
-  border-radius: 6px;
-}
-
-/* Buttons */
-.btn-primary {
-  background: var(--accent-primary);
-  color: #000;
-  border: none;
-  border-radius: 4px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: opacity 0.15s;
-}
-
-.btn-primary:hover:not(:disabled) {
-  opacity: 0.85;
-}
-
-.btn-primary:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-
-/* Inputs */
-input[type="text"],
-textarea,
-select {
-  background: var(--bg-elevated);
-  border: 1px solid var(--bg-border);
-  color: var(--text-primary);
-  border-radius: 4px;
-  outline: none;
-  transition: border-color 0.15s;
-}
-
-input[type="text"]:focus,
-textarea:focus {
-  border-color: var(--accent-dim);
-}
-
-/* Glow animation */
-@keyframes glow {
-  0%, 100% { opacity: 0.3; }
-  50% { opacity: 0.6; }
-}
-
-.animate-glow {
-  animation: glow 2s ease-in-out infinite;
-}
-
-/* Pulse dot */
-@keyframes pulse-dot {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
-}
-
-.pulse-dot {
-  animation: pulse-dot 1.5s ease-in-out infinite;
-}
-
-/* Scrollbars */
-::-webkit-scrollbar {
-  width: 4px;
-  height: 4px;
-}
-::-webkit-scrollbar-track {
-  background: var(--bg-base);
-}
-::-webkit-scrollbar-thumb {
-  background: var(--bg-border);
-  border-radius: 2px;
->>>>>>> c82d7ec0c3afbc798ab926f91a33a5f81a5b6290
 }

@@ -2,39 +2,23 @@ import { createTool } from "@mastra/core/tools";
 import { z } from "zod";
 import { sql, logEvent } from "../../db";
 
-<<<<<<< HEAD
 // ── READ: Get all open tasks the agent can claim ──────────────
 export const readTasksTool = createTool({
   id: "read_tasks",
   description:
     "Read all open tasks from the blackboard. Returns tasks that are unclaimed or assigned to this agent.",
-=======
-export const readTasksTool = createTool({
-  id: "read_tasks",
-  description: "Read all open tasks from the blackboard. Returns tasks that are unclaimed or assigned to this agent.",
->>>>>>> c82d7ec0c3afbc798ab926f91a33a5f81a5b6290
   inputSchema: z.object({
     session_id: z.string(),
     agent_name: z.string().optional(),
   }),
-<<<<<<< HEAD
   outputSchema: z.object({ tasks: z.array(z.any()) }),
-=======
-  outputSchema: z.object({
-    tasks: z.array(z.any()),
-  }),
->>>>>>> c82d7ec0c3afbc798ab926f91a33a5f81a5b6290
   execute: async ({ context }) => {
     const { session_id, agent_name } = context;
     const tasks = await sql`
       SELECT t.*, a.name as posted_by_name
       FROM tasks t
       LEFT JOIN agents a ON a.id = t.posted_by
-<<<<<<< HEAD
       WHERE t.session_id = ${session_id}::uuid
-=======
-      WHERE t.session_id = ${session_id}
->>>>>>> c82d7ec0c3afbc798ab926f91a33a5f81a5b6290
         AND t.status IN ('open', 'in_progress')
         AND (t.assigned_to IS NULL OR t.assigned_to = ${agent_name ?? ""})
       ORDER BY t.priority ASC, t.created_at ASC
@@ -43,10 +27,7 @@ export const readTasksTool = createTool({
   },
 });
 
-<<<<<<< HEAD
 // ── READ: Get all artifacts on the blackboard ─────────────────
-=======
->>>>>>> c82d7ec0c3afbc798ab926f91a33a5f81a5b6290
 export const readArtifactsTool = createTool({
   id: "read_artifacts",
   description: "Read artifacts from the blackboard. Can filter by type or task_id.",
@@ -56,24 +37,14 @@ export const readArtifactsTool = createTool({
     task_id: z.string().optional(),
     status: z.string().optional(),
   }),
-<<<<<<< HEAD
   outputSchema: z.object({ artifacts: z.array(z.any()) }),
-=======
-  outputSchema: z.object({
-    artifacts: z.array(z.any()),
-  }),
->>>>>>> c82d7ec0c3afbc798ab926f91a33a5f81a5b6290
   execute: async ({ context }) => {
     const { session_id, type, task_id, status } = context;
     const artifacts = await sql`
       SELECT a.*, pa.content as parent_content
       FROM artifacts a
       LEFT JOIN artifacts pa ON pa.id = a.parent_artifact_id
-<<<<<<< HEAD
       WHERE a.session_id = ${session_id}::uuid
-=======
-      WHERE a.session_id = ${session_id}
->>>>>>> c82d7ec0c3afbc798ab926f91a33a5f81a5b6290
         AND (${type ?? null}::text IS NULL OR a.type = ${type ?? null})
         AND (${task_id ?? null}::text IS NULL OR a.task_id = ${task_id ?? null}::uuid)
         AND (${status ?? null}::text IS NULL OR a.status = ${status ?? null})
@@ -84,17 +55,11 @@ export const readArtifactsTool = createTool({
   },
 });
 
-<<<<<<< HEAD
 // ── WRITE: Post a new task ────────────────────────────────────
 export const postTaskTool = createTool({
   id: "post_task",
   description:
     "Post a new task to the blackboard for other agents to pick up.",
-=======
-export const postTaskTool = createTool({
-  id: "post_task",
-  description: "Post a new task to the blackboard for other agents to pick up.",
->>>>>>> c82d7ec0c3afbc798ab926f91a33a5f81a5b6290
   inputSchema: z.object({
     session_id: z.string(),
     agent_id: z.string(),
@@ -104,46 +69,20 @@ export const postTaskTool = createTool({
     assigned_to: z.string().optional(),
     priority: z.number().min(1).max(10).default(5),
   }),
-<<<<<<< HEAD
   outputSchema: z.object({ task_id: z.string(), success: z.boolean() }),
-=======
-  outputSchema: z.object({
-    task_id: z.string(),
-    success: z.boolean(),
-  }),
->>>>>>> c82d7ec0c3afbc798ab926f91a33a5f81a5b6290
   execute: async ({ context }) => {
     const { session_id, agent_id, agent_name, title, description, assigned_to, priority } = context;
     const [task] = await sql`
       INSERT INTO tasks (session_id, posted_by, title, description, assigned_to, priority, status)
-<<<<<<< HEAD
       VALUES (${session_id}::uuid, ${agent_id}::uuid, ${title}, ${description ?? null}, ${assigned_to ?? null}, ${priority}, 'open')
       RETURNING id
     `;
     await logEvent({ session_id, agent_id, agent_name, event_type: "task_posted", entity_type: "task", entity_id: task.id, payload: { title, assigned_to, priority } });
-=======
-      VALUES (
-        ${session_id}::uuid, ${agent_id}::uuid, ${title},
-        ${description ?? null}, ${assigned_to ?? null}, ${priority}, 'open'
-      )
-      RETURNING id
-    `;
-    await logEvent({
-      session_id, agent_id, agent_name,
-      event_type: "task_posted",
-      entity_type: "task",
-      entity_id: task.id,
-      payload: { title, assigned_to, priority },
-    });
->>>>>>> c82d7ec0c3afbc798ab926f91a33a5f81a5b6290
     return { task_id: task.id, success: true };
   },
 });
 
-<<<<<<< HEAD
 // ── WRITE: Claim a task ───────────────────────────────────────
-=======
->>>>>>> c82d7ec0c3afbc798ab926f91a33a5f81a5b6290
 export const claimTaskTool = createTool({
   id: "claim_task",
   description: "Claim a task from the blackboard to start working on it.",
@@ -156,30 +95,14 @@ export const claimTaskTool = createTool({
   outputSchema: z.object({ success: z.boolean() }),
   execute: async ({ context }) => {
     const { task_id, agent_id, agent_name, session_id } = context;
-<<<<<<< HEAD
     await sql`UPDATE tasks SET status = 'in_progress', assigned_to = ${agent_name}, updated_at = NOW() WHERE id = ${task_id}::uuid`;
     await sql`UPDATE agents SET status = 'working', current_task_id = ${task_id}::uuid, last_seen = NOW() WHERE id = ${agent_id}::uuid`;
-=======
-    await sql`
-      UPDATE tasks
-      SET status = 'in_progress', assigned_to = ${agent_name}, updated_at = NOW()
-      WHERE id = ${task_id}::uuid
-    `;
-    await sql`
-      UPDATE agents
-      SET status = 'working', current_task_id = ${task_id}::uuid, last_seen = NOW()
-      WHERE id = ${agent_id}::uuid
-    `;
->>>>>>> c82d7ec0c3afbc798ab926f91a33a5f81a5b6290
     await logEvent({ session_id, agent_id, agent_name, event_type: "task_claimed", entity_type: "task", entity_id: task_id });
     return { success: true };
   },
 });
 
-<<<<<<< HEAD
 // ── WRITE: Write an artifact ──────────────────────────────────
-=======
->>>>>>> c82d7ec0c3afbc798ab926f91a33a5f81a5b6290
 export const writeArtifactTool = createTool({
   id: "write_artifact",
   description: "Write a knowledge artifact to the blackboard.",
@@ -195,27 +118,12 @@ export const writeArtifactTool = createTool({
     parent_artifact_id: z.string().optional(),
     tags: z.array(z.string()).optional(),
   }),
-<<<<<<< HEAD
   outputSchema: z.object({ artifact_id: z.string(), success: z.boolean(), requires_human_review: z.boolean() }),
-=======
-  outputSchema: z.object({
-    artifact_id: z.string(),
-    success: z.boolean(),
-    requires_human_review: z.boolean(),
-  }),
->>>>>>> c82d7ec0c3afbc798ab926f91a33a5f81a5b6290
   execute: async ({ context }) => {
     const { session_id, task_id, agent_id, agent_name, type, title, content, confidence, parent_artifact_id, tags } = context;
     const requires_human_review = confidence < 0.6;
     const [artifact] = await sql`
-<<<<<<< HEAD
       INSERT INTO artifacts (session_id, task_id, agent_id, agent_name, type, title, content, confidence, parent_artifact_id, status, requires_human_review, tags)
-=======
-      INSERT INTO artifacts (
-        session_id, task_id, agent_id, agent_name, type, title, content,
-        confidence, parent_artifact_id, status, requires_human_review, tags
-      )
->>>>>>> c82d7ec0c3afbc798ab926f91a33a5f81a5b6290
       VALUES (
         ${session_id}::uuid,
         ${task_id ?? null}::uuid,
@@ -236,25 +144,12 @@ export const writeArtifactTool = createTool({
       await sql`UPDATE tasks SET status = 'done', completed_at = NOW(), updated_at = NOW() WHERE id = ${task_id}::uuid`;
     }
     await sql`UPDATE agents SET status = 'idle', current_task_id = NULL, last_seen = NOW() WHERE id = ${agent_id}::uuid`;
-<<<<<<< HEAD
     await logEvent({ session_id, agent_id, agent_name, event_type: "artifact_written", entity_type: "artifact", entity_id: artifact.id, payload: { type, title, confidence, requires_human_review } });
-=======
-    await logEvent({
-      session_id, agent_id, agent_name,
-      event_type: "artifact_written",
-      entity_type: "artifact",
-      entity_id: artifact.id,
-      payload: { type, title, confidence, requires_human_review },
-    });
->>>>>>> c82d7ec0c3afbc798ab926f91a33a5f81a5b6290
     return { artifact_id: artifact.id, success: true, requires_human_review };
   },
 });
 
-<<<<<<< HEAD
 // ── WRITE: Complete a task ────────────────────────────────────
-=======
->>>>>>> c82d7ec0c3afbc798ab926f91a33a5f81a5b6290
 export const completeTaskTool = createTool({
   id: "complete_task",
   description: "Mark a task as completed on the blackboard.",
