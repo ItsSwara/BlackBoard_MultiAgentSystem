@@ -245,7 +245,9 @@ blackboard/
 
 ## 👥 Team
 -Swara Shetye
+shetye.swara01@gmail.com
 -Shreyashi Kaitke
+shrey04kaitke@gmail.com
 -Prajakta Vetale
-
+pvetale98@gmail.com
 Built for the **PowerSync Hackathon 2026**
