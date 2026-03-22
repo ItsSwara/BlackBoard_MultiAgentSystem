@@ -3,7 +3,11 @@ import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 
 interface GoalInputProps {
+<<<<<<< HEAD
   onSessionStart: (id: string) => void;
+=======
+  onSessionStart: (sessionId: string) => void;
+>>>>>>> c82d7ec0c3afbc798ab926f91a33a5f81a5b6290
   activeSessionId: string | null;
 }
 
@@ -11,7 +15,11 @@ export function GoalInput({ onSessionStart, activeSessionId }: GoalInputProps) {
   const [goal, setGoal] = useState("");
 
   const { mutate, isPending } = useMutation({
+<<<<<<< HEAD
     mutationFn: async () => {
+=======
+    mutationFn: async (goal: string) => {
+>>>>>>> c82d7ec0c3afbc798ab926f91a33a5f81a5b6290
       const res = await fetch("/api/run", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -26,6 +34,7 @@ export function GoalInput({ onSessionStart, activeSessionId }: GoalInputProps) {
     },
   });
 
+<<<<<<< HEAD
   const canLaunch = !isPending && goal.trim().length > 0;
 
   return (
@@ -159,6 +168,53 @@ export function GoalInput({ onSessionStart, activeSessionId }: GoalInputProps) {
           "LAUNCH TASK →"
         )}
       </button>
+=======
+  return (
+    <div className="card p-4">
+      <h2
+        className="font-mono text-xs font-semibold tracking-widest mb-3"
+        style={{ color: "var(--accent-primary)" }}
+      >
+        ⬡ NEW SESSION
+      </h2>
+      {activeSessionId && (
+        <div
+          className="text-xs font-mono mb-3 px-2 py-1 rounded"
+          style={{
+            background: "var(--bg-elevated)",
+            color: "var(--accent-dim)",
+            border: "1px solid var(--bg-border)",
+          }}
+        >
+          Active: {activeSessionId.slice(0, 8)}…
+        </div>
+      )}
+      <textarea
+        className="w-full p-2 text-sm resize-none mb-3"
+        rows={3}
+        placeholder="Enter your goal for the agent swarm…"
+        value={goal}
+        onChange={(e) => setGoal(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" && (e.metaKey || e.ctrlKey) && goal.trim()) {
+            mutate(goal.trim());
+          }
+        }}
+      />
+      <button
+        className="btn-primary w-full py-2 text-sm font-mono"
+        disabled={isPending || !goal.trim()}
+        onClick={() => goal.trim() && mutate(goal.trim())}
+      >
+        {isPending ? "Launching…" : "Launch Agent Swarm"}
+      </button>
+      <p
+        className="text-xs mt-2 text-center"
+        style={{ color: "var(--text-dim)" }}
+      >
+        Ctrl+Enter to submit
+      </p>
+>>>>>>> c82d7ec0c3afbc798ab926f91a33a5f81a5b6290
     </div>
   );
 }

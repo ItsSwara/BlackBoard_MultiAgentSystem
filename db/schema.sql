@@ -1,4 +1,11 @@
+<<<<<<< HEAD
 -- Enable UUID extension
+=======
+-- ============================================================
+-- BLACKBOARD: Neon Postgres Schema
+-- ============================================================
+
+>>>>>>> c82d7ec0c3afbc798ab926f91a33a5f81a5b6290
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 CREATE TABLE IF NOT EXISTS sessions (
@@ -75,6 +82,7 @@ CREATE INDEX IF NOT EXISTS idx_agents_session ON agents(session_id);
 
 CREATE OR REPLACE FUNCTION update_updated_at()
 RETURNS TRIGGER AS $$
+<<<<<<< HEAD
 BEGIN NEW.updated_at = NOW(); RETURN NEW; END;
 $$ LANGUAGE plpgsql;
 
@@ -86,3 +94,23 @@ CREATE TRIGGER tasks_updated_at BEFORE UPDATE ON tasks FOR EACH ROW EXECUTE FUNC
 
 DROP TRIGGER IF EXISTS artifacts_updated_at ON artifacts;
 CREATE TRIGGER artifacts_updated_at BEFORE UPDATE ON artifacts FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+=======
+BEGIN
+  NEW.updated_at = NOW();
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+DO $$ BEGIN
+  CREATE TRIGGER sessions_updated_at BEFORE UPDATE ON sessions FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;
+DO $$ BEGIN
+  CREATE TRIGGER tasks_updated_at BEFORE UPDATE ON tasks FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;
+DO $$ BEGIN
+  CREATE TRIGGER artifacts_updated_at BEFORE UPDATE ON artifacts FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;
+>>>>>>> c82d7ec0c3afbc798ab926f91a33a5f81a5b6290
